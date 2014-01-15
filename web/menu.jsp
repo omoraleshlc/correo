@@ -34,8 +34,8 @@
                 
                     <ul class="simple">
                         <li><a href="catProveedores.jsp" title="Proveedores">Proveedores</a></li>
-                        <li><a href="#" title="Usuarios">Usuarios</a></li>
-                        <li><a href="#" title="Contactos">Contactos</a></li>
+                        <li><a href="catUsuarios.jsp" title="Usuarios">Usuarios</a></li>
+                        <li><a href="catContactos.jsp" title="Contactos">Contactos</a></li>
                        
                     </ul>   
                      
