@@ -14,9 +14,9 @@
                 
                     <ul class="simple">
                         <li><a href="#" title="Inicio">Inicio</a></li>
-                        <li><a href="#" title="Entradas de Paquetes">Entradas de Paquetes</a></li>
+                        <li><a href="registrarPaquetes.jsp" title="Entradas de Paquetes">Entradas de Paquetes</a></li>
                         <li><a href="#" title="Salidas de Paquetes">Salidas de Paquetes</a></li>
-                        <li><a href="#" title="Buscar">Buscar</a></li>
+                        <li><a href="#" title="mostrarPaquetes">Status Paquetes</a></li>
                        
                     </ul>   
                      
