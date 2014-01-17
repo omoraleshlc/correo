@@ -1,0 +1,12 @@
+/* 
+    Document   : estilosPropios
+    Created on : Nov 13, 2013, 4:17:59 PM
+    Author     : eder
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.panel-encabezado-tabla{
+    color: #ffffff;
+  background-color: #428bca;
+  border-color: #428bca;
+}

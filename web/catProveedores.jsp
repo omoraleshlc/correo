@@ -3,7 +3,8 @@
     Created on : Jan 12, 2014, 9:40:46 PM
     Author     : eric
 --%>
-
+<%@include file="menu.jsp" %>
+<%@ include file="conectar.jsp" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,12 +13,15 @@
         <title>Catálogo de Proveedores</title>
     </head>
     <body>
-        <%@include file="menu.jsp" %>
-        <section id="container">
+        
+   
 
         <h1>Catálogo de Proveedores</h1>
         
         <html>
+            
+            <div class="container" >   
+            
 <jsp:useBean id="actualsession" class="beans.session" scope="session"/>
        
 <%@ page import="java.io.*,java.util.*,java.net.*,java.sql.*" %>
@@ -30,13 +34,8 @@ if(request.getParameter("GRABAR") != null && request.getParameter("NOMBRE") != "
 
 // objetos de enlace
 
-Connection canal = null;
 
-ResultSet tabla= null;
 
-Statement instruccion=null;
-
-String strcon = "jdbc:mysql://localhost/correo?user=root";
 
 // abriendo canal o enlace en su propio try-catch
 
@@ -108,31 +107,7 @@ if(keyP!=null )
 
 {
 
-// objetos de enlace
 
-Connection canal = null;
-
-ResultSet tabla= null;
-
-Statement instruccion=null;
-
-String strcon = "jdbc:mysql://localhost/correo?user=root";
-
-// abriendo canal o enlace en su propio try-catch
-
-try {
-
-Class.forName("com.mysql.jdbc.Driver").newInstance();
-
-canal=DriverManager.getConnection(strcon);
-
-instruccion = canal.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-
-ResultSet.CONCUR_UPDATABLE);
-
-} catch(java.lang.ClassNotFoundException e){} catch(SQLException e) {};
-
-//cargando los campos a grabar
 
 // excepto clave porque en mysql es de tipo auto-increment
 
@@ -201,31 +176,27 @@ canal.close();
 
 out.println("<FORM ACTION=catProveedores.jsp METHOD=post>");
 
-out.println("NOMBRE :<INPUT TYPE=TEXT NAME=NOMBRE ><BR>");
+out.println("NOMBRE :<INPUT class=form-control TYPE=TEXT NAME=NOMBRE ><BR>");%>
+
+<button TYPE="SUBMIT" NAME="GRABAR" VALUE="INSERTAR" class="btn btn-primary">
+    INSERTAR <span class="glyphicon glyphicon-arrow-right"></span>
+</button>
 
 
-out.println("<INPUT TYPE=SUBMIT NAME=GRABAR VALUE=INSERTAR ><BR>");
-
+<BR>
+<%
 out.println("</FORM>");
 
 %>
 
         
-        </section>
+       
 
 
 <%
 
 // declarando y creando objetos globales
 int a=0;
-Connection canal = null;
-
-ResultSet tabla= null;
-
-Statement instrucciones=null;
-
-String strcon = "jdbc:mysql://localhost/correo?user=root";
-
 
 
 
@@ -246,7 +217,24 @@ ResultSet.CONCUR_UPDATABLE);
 
 // preparando condicion de busqueda
 
+%>
 
+
+
+<div class="panel panel-primary">
+<div class="panel-heading"></div> 
+<table class="table table-hover table-stripe"><TR>
+
+<th ><small>#</small></th>
+<th><small>Nombre</small></th><th >
+    
+</th></TR>
+
+
+
+
+
+<%
 // construyendo select con condicion
 
 String q="select * from proveedores ";
@@ -257,25 +245,28 @@ try { tabla = instrucciones.executeQuery(q);
 
 // mandando resultset a tabla html
 
-out.println("<TABLE Border=10 CellPadding=5><TR>");
-
-out.println("<th >#</th><th bgcolor=White>NOMBRE</th><th ></th></TR>");
 
 while(tabla.next()) {
 a+=1;    
 
 out.println("<TR>");
-out.println("<TD>"+a+"</TD>");
+out.println("<TD><small>"+a+"</small></TD>");
+%>
+
+
+<TD><small><% out.println(tabla.getString(2));%></small></TD>
 
 
 
-out.println("<TD>"+tabla.getString(2)+"</TD>");
+<TD><a href="catProveedores.jsp?keyP=<% out.println(tabla.getString(1));%>"><small>Eliminar <span class="glyphicon glyphicon-floppy-remove"></span>
+</small></a></TD>
 
-out.println("<TD><a href='catProveedores.jsp?keyP="+tabla.getString(1)+"'>Eliminar</a></TD>");
 
+
+<%
 out.println("</TR>"); }; // fin while
 
-out.println("</TABLE></CENTER></DIV></HTML>");
+//out.println("</TABLE></CENTER></div>");
 
 } //fin try no usar ; al final de dos o mas catchs
 
@@ -290,6 +281,10 @@ try {tabla.close();instrucciones.close();canal.close();} catch(SQLException e) {
 
 
 %>
+
+</table>
+</div>
+</div>
 
     </body>
 </html>

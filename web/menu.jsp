@@ -1,4 +1,4 @@
-<link href="css/style.css" rel="stylesheet" media="screen, projection">
+<link href="bt/css/bootstrap.css" rel="stylesheet" media="screen, projection">
 <section id="container">
 
 <div id="menu"><!-- Menu starts here -->
@@ -14,9 +14,8 @@
                 
                     <ul class="simple">
                         <li><a href="#" title="Inicio">Inicio</a></li>
-                        <li><a href="registrarPaquetes.jsp" title="Entradas de Paquetes">Entradas de Paquetes</a></li>
-                        <li><a href="#" title="Salidas de Paquetes">Salidas de Paquetes</a></li>
-                        <li><a href="#" title="mostrarPaquetes">Status Paquetes</a></li>
+                        <li><a href="registrarPaquetes.jsp" title="Entradas de Paquetes">Registrar Paquetes</a></li>
+
                        
                     </ul>   
                      
