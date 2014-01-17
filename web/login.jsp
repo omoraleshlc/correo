@@ -24,8 +24,8 @@ PreparedStatement pst=null;
 ResultSet re=null;
 String url="jdbc:mysql://localhost:3306/correo";
 String Driver="com.mysql.jdbc.Driver";
-String user="root";
-String pass="";
+String user="omorales";
+String pass="wolf3333";
 
 Class.forName(Driver);
 con=DriverManager.getConnection(url,user,pass);

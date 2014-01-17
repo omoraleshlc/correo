@@ -39,7 +39,7 @@ ResultSet tabla= null;
 ResultSet selectProveedores = null;
 Statement instruccion=null;
 Statement instrucciones=null;
-String strcon = "jdbc:mysql://localhost/correo?user=root";
+String strcon = "jdbc:mysql://localhost/correo?user=omorales&password=wolf3333";
 
 // abriendo canal o enlace en su propio try-catch
 
@@ -95,6 +95,13 @@ out.println("<script>window.alert('PAQUETE REGISTRADO!');</script>");
 
 } catch(SQLException e) {out.println(e);};
 
+
+
+
+
+
+
+
 try{
 
 // tabla.close();
@@ -133,7 +140,7 @@ ResultSet tabla= null;
 ResultSet mostrarProveedores=null;
 Statement instrucciones=null;
 
-String strcon = "jdbc:mysql://localhost/correo?user=root";
+String strcon = "jdbc:mysql://localhost/correo?user=omorales&password=wolf3333";
 
 
 

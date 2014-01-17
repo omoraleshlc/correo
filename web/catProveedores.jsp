@@ -87,6 +87,116 @@ canal.close();
 
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//FUNCION ELIMINAR
+String keyP=null;
+keyP=request.getParameter("keyP");
+if(keyP!=null )
+
+{
+
+// objetos de enlace
+
+Connection canal = null;
+
+ResultSet tabla= null;
+
+Statement instruccion=null;
+
+String strcon = "jdbc:mysql://localhost/correo?user=root";
+
+// abriendo canal o enlace en su propio try-catch
+
+try {
+
+Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+canal=DriverManager.getConnection(strcon);
+
+instruccion = canal.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+
+ResultSet.CONCUR_UPDATABLE);
+
+} catch(java.lang.ClassNotFoundException e){} catch(SQLException e) {};
+
+//cargando los campos a grabar
+
+// excepto clave porque en mysql es de tipo auto-increment
+
+
+
+// insert into tabla(nombre,edad,estatura) values('juan', 15, 1.88);
+
+String p="DELETE FROM proveedores WHERE keyP=\"" +keyP+"\" ";
+
+try {
+
+// agregando renglon (insert)
+
+int n=instruccion.executeUpdate(p);
+
+//avisando que se hizo la instruccion
+
+out.println("<script>window.alert('SE ELIMINO EL PROVEEDOR!');</script>");
+
+} catch(SQLException e) {out.println(e);};
+
+try{
+
+// tabla.close();
+
+instruccion.close();
+
+canal.close();
+
+} catch(SQLException e) {out.println(e);};
+
+};
+
+//CIERRA ELIMINAR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // construyendo forma dinamica
 
 out.println("<FORM ACTION=catProveedores.jsp METHOD=post>");
