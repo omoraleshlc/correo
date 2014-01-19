@@ -8,9 +8,10 @@
     </head>
     <body>
         <%@include file="menu.jsp" %>
-        <section id="container">
+        <br><br>
+        <section class="container">
 
-        <h1>Entregar Paquetes</h1>
+        <h1>Entregar paquete con la solicitud: <% out.println(request.getParameter("keyRP"));%></h1>
    
 
 
@@ -50,9 +51,9 @@ String keyRP = request.getParameter("keyRP");
 
 
 
-if(request.getParameter("GRABAR") != null && request.getParameter("keyC")!=null)
+if(request.getParameter("GRABAR") != null && request.getParameter("keyRP")!=null)
 {
-String q="UPDATE registrarpaquetes set status='entregado' where keyRP=\"" +keyRP+"\"";
+String q="UPDATE registrarpaquetes set status='entregado',fechaEntrega=now() where keyRP=\"" +keyRP+"\"";
 try {
 
 // agregando renglon (insert)
@@ -137,7 +138,10 @@ out.println("</select><br>");
 
 catch(SQLException e) {};
 
-try {tabla.close();instrucciones.close();canal.close();} catch(SQLException e) {};
+try {tabla.close();instrucciones.close();canal.close();} catch(SQLException e) {};%>
+<INPUT TYPE="hidden" NAME="keyRP" VALUE="<% out.println(request.getParameter("keyRP"));%>" ><BR>
+
+<%
 out.println("<INPUT TYPE=SUBMIT NAME=GRABAR VALUE=ENTREGAR PAQUETE ><BR>");
 out.println("</form><br><br>");
 
@@ -166,7 +170,7 @@ ResultSet.CONCUR_UPDATABLE);
 
 // construyendo select con condicion
 String q=null;
-q="select registrarpaquetes.keyRP,proveedores.nombre,registrarpaquetes.status,registrarpaquetes.fecha from registrarpaquetes,proveedores where registrarpaquetes.keyP=proveedores.keyP order by proveedores.nombre ASC";
+q="select registrarpaquetes.keyRP,proveedores.nombre,registrarpaquetes.status,registrarpaquetes.fecha,registrarpaquetes.fechaEntrega from registrarpaquetes,proveedores where registrarpaquetes.keyP=proveedores.keyP order by proveedores.nombre ASC";
 String r=null;
 String idProveedor=null;
 // mandando el sql a la base de datos
@@ -175,9 +179,9 @@ try { tabla = instrucciones.executeQuery(q);
 
 // mandando resultset a tabla html
 
-out.println("<TABLE Border=10 CellPadding=5><TR>");
+out.println("<TABLE Border=10 class='table table-hover table-striped' CellPadding=5><TR>");
 
-out.println("<th >#Solicitud</th><th bgcolor=White>PROVEEDOR</th><th bgcolor=White>STATUS</th><th >FECHA</th></TR>");
+out.println("<th >#Solicitud</th><th bgcolor=White>PROVEEDOR</th><th bgcolor=White>STATUS</th><th >FECHA</th><th>FECHA ENTREGA</th></TR>");
 
 while(tabla.next()) {
 a+=1;    
@@ -191,8 +195,8 @@ out.println("<TD>"+tabla.getString(1)+"</TD>");
 out.println("<TD>"+tabla.getString(2)+"</TD>");
 out.println("<TD>"+tabla.getString(3)+"</TD>");
 out.println("<TD>"+tabla.getString(4)+"</TD>");
-
-out.println("<TD><a href='catUsuarios.jsp?keyRP="+tabla.getString(1)+"'>Entregar</a></TD>");
+out.println("<TD>"+tabla.getString(5)+"</TD>");
+//out.println("<TD><a href='catUsuarios.jsp?keyRP="+tabla.getString(1)+"'>Entregar</a></TD>");
 
 out.println("</TR>"); }; // fin while
 

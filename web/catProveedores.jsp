@@ -3,6 +3,7 @@
     Created on : Jan 12, 2014, 9:40:46 PM
     Author     : eric
 --%>
+
 <%@include file="menu.jsp" %>
 <%@ include file="conectar.jsp" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -14,17 +15,28 @@
     </head>
     <body>
         
-   
+               <div class="container" >  
+      <h3> Proveedores</h3>
 
-        <h1>Catálogo de Proveedores</h1>
-        
-        <html>
+    
             
-            <div class="container" >   
+ 
             
 <jsp:useBean id="actualsession" class="beans.session" scope="session"/>
        
 <%@ page import="java.io.*,java.util.*,java.net.*,java.sql.*" %>
+
+
+
+
+
+
+
+
+
+
+
+
 
 <%
 
@@ -70,7 +82,7 @@ int n=instruccion.executeUpdate(q);
 
 //avisando que se hizo la instruccion
 
-out.println("<script>window.alert('SE AGREGO EL PROVEEDOR!');</script>");
+out.println("<div class='alert alert-success'>SE AGREGO EL PROVEEDOR!</div>");
 
 } catch(SQLException e) {out.println(e);};
 
@@ -125,7 +137,7 @@ int n=instruccion.executeUpdate(p);
 
 //avisando que se hizo la instruccion
 
-out.println("<script>window.alert('SE ELIMINO EL PROVEEDOR!');</script>");
+out.println("<div class='alert alert-danger'>SE ELIMINO EL PROVEEDOR!</div>");
 
 } catch(SQLException e) {out.println(e);};
 
@@ -174,12 +186,13 @@ canal.close();
 
 // construyendo forma dinamica
 
-out.println("<FORM ACTION=catProveedores.jsp METHOD=post>");
+out.println("<FORM ACTION=catProveedores.jsp METHOD=post>");%>
 
-out.println("NOMBRE :<INPUT class=form-control TYPE=TEXT NAME=NOMBRE ><BR>");%>
+<INPUT class="form-control" placeholder="ESCRIBE EL NOMBRE DEL PROVEEDOR" TYPE="TEXT" NAME="NOMBRE" ><BR>
 
-<button TYPE="SUBMIT" NAME="GRABAR" VALUE="INSERTAR" class="btn btn-primary">
-    INSERTAR <span class="glyphicon glyphicon-arrow-right"></span>
+</INPUT>
+<button TYPE="SUBMIT" NAME="GRABAR" VALUE="INSERTAR" class="btn btn-primary btn-sm">
+    INSERTAR <span class="glyphicon glyphicon-floppy-save"></span>
 </button>
 
 
@@ -223,7 +236,7 @@ ResultSet.CONCUR_UPDATABLE);
 
 <div class="panel panel-primary">
 <div class="panel-heading"></div> 
-<table class="table table-hover table-stripe"><TR>
+<table class="table table-hover table-striped"><TR>
 
 <th ><small>#</small></th>
 <th><small>Nombre</small></th><th >

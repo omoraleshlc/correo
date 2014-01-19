@@ -3,7 +3,11 @@
     Created on : Jan 12, 2014, 9:40:46 PM
     Author     : eric
 --%>
+<jsp:useBean id="actualsession" class="beans.session" scope="session"/>
+ <%@include file="menu.jsp" %>
 
+<%@ include file="conectar.jsp" %>
+<%@ page import="java.io.*,java.util.*,java.net.*,java.sql.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,34 +16,66 @@
         <title>Catálogo de Usuarios</title>
     </head>
     <body>
-        <%@include file="menu.jsp" %>
-        <section id="container">
-
-        <h1>Catálogo de Usuarios</h1>
-        
-        <html>
-<jsp:useBean id="actualsession" class="beans.session" scope="session"/>
        
-<%@ page import="java.io.*,java.util.*,java.net.*,java.sql.*" %>
+        <br><br>
 
-<%
+            
+            <div class="container">
+        <h1>Catálogo de Usuarios</h1>
+     
+<%        
+//FUNCION ELIMINAR
+String keyUser=null;
+keyUser=request.getParameter("keyUser");
+if(keyUser!=null )
+
+{
+
+
+
+// excepto clave porque en mysql es de tipo auto-increment
+
+
+
+// insert into tabla(nombre,edad,estatura) values('juan', 15, 1.88);
+
+String p="DELETE FROM usuarios WHERE keyUser=\"" +keyUser+"\" ";
+
+try {
+
+// agregando renglon (insert)
+
+int n=instruccion.executeUpdate(p);
+
+//avisando que se hizo la instruccion
+
+out.println("<div class='alert alert-danger'>SE ELIMINO EL USUARIO!</div>");
+
+} catch(SQLException e) {out.println(e);};
+
+try{
+
+// tabla.close();
+
+instruccion.close();
+
+canal.close();
+
+} catch(SQLException e) {out.println(e);};
+
+};
+
+//CIERRA ELIMINAR
+        
+        
+      
+
 
 if(request.getParameter("GRABAR") != null && request.getParameter("NOMBRE") != "" && request.getParameter("EMAIL") != "" && request.getParameter("USUARIO") != "" && request.getParameter("PASSWORD") != "")
 
 {
 
 // objetos de enlace
-
-Connection canal = null;
-
-ResultSet tabla= null;
-
-Statement instruccion=null;
-
-String strcon = "jdbc:mysql://localhost/correo?user=root";
-
-// abriendo canal o enlace en su propio try-catch
-
 try {
 
 Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -73,7 +109,7 @@ int n=instruccion.executeUpdate(q);
 
 //avisando que se hizo la instruccion
 
-out.println("<script>window.alert('SE AGREGO EL USUARIO!');</script>");
+out.println("<div class='alert alert-success'>USUARIO AGREGADO!</div>");
 
 } catch(SQLException e) {out.println(e);};
 
@@ -95,11 +131,10 @@ out.println("<FORM ACTION=catUsuarios.jsp METHOD=post>");
 
 out.println("NOMBRE :<INPUT TYPE=TEXT NAME=NOMBRE ><BR>");
 
-out.println("EMAIL :<INPUT TYPE=TEXT NAME=EMAIL ><BR>");
+out.println("USUARIO :<INPUT TYPE=TEXT NAME=EMAIL ><BR>");
 
 out.println("PASSWORD :<INPUT TYPE=TEXT NAME=PASSWORD ><BR>");
 
-out.println("USUARIO :<INPUT TYPE=TEXT NAME=USUARIO ><BR>");
 out.println("<INPUT TYPE=SUBMIT NAME=GRABAR VALUE=INSERTAR ><BR>");
 
 out.println("</FORM>");
@@ -107,23 +142,12 @@ out.println("</FORM>");
 %>
 
         
-        </section>
-
+      
 
 <%
 
 // declarando y creando objetos globales
 int a=0;
-Connection canal = null;
-
-ResultSet tabla= null;
-
-Statement instrucciones=null;
-
-String strcon = "jdbc:mysql://localhost/correo?user=root";
-
-
-
 
 
 // abriendo canal o enlace en su propio try-catch
@@ -150,30 +174,33 @@ String q="select * from usuarios ";
 // mandando el sql a la base de datos
 
 try { tabla = instrucciones.executeQuery(q);
+%>
 
-// mandando resultset a tabla html
+<div class="panel panel-primary">
+<div class="panel-heading"></div> 
+<table class="table table-hover table-striped">
+<TABLE class='table table-striped table-hover'>
 
-out.println("<TABLE Border=10 CellPadding=5><TR>");
-
+<%
 out.println("<th >#</th><th bgcolor=White>USUARIO</th><th bgcolor=White>NOMBRE</th><th >EMAIL</th><th bgcolor=White>PASSWORD</th></TR>");
 
 while(tabla.next()) {
 a+=1;    
 
 out.println("<TR>");
-out.println("<TD>"+a+"</TD>");
+out.println("<TD><small>"+a+"</TD>");
 
 
-out.println("<TD>"+tabla.getString(1)+"</TD>");
-out.println("<TD>"+tabla.getString(2)+"</TD>");
-out.println("<TD>"+tabla.getString(3)+"</TD>");
-out.println("<TD>"+tabla.getString(4)+"</TD>");
-out.println("<TD>"+tabla.getString(5)+"</TD>");
-out.println("<TD><a href='catUsuarios.jsp?keyP="+tabla.getString(1)+"'>Eliminar</a></TD>");
+out.println("<TD><small>"+tabla.getString(1)+"</small></TD>");
+out.println("<TD><small>"+tabla.getString(2)+"</small></TD>");
+out.println("<TD><small>"+tabla.getString(3)+"</small></TD>");
+out.println("<TD><small>"+tabla.getString(4)+"</small></TD>");
+out.println("<TD><small>"+tabla.getString(5)+"</small></TD>");
+out.println("<TD><small><a href='catUsuarios.jsp?keyUser="+tabla.getString(1)+"'>Eliminar</a></small></TD>");
 
 out.println("</TR>"); }; // fin while
 
-out.println("</TABLE></CENTER></DIV></HTML>");
+out.println("");
 
 } //fin try no usar ; al final de dos o mas catchs
 
@@ -187,7 +214,8 @@ try {tabla.close();instrucciones.close();canal.close();} catch(SQLException e) {
 
 
 
-%>
-
+%></table>
+</div>
+</div>
     </body>
 </html>

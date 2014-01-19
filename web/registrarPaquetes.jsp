@@ -14,10 +14,10 @@
         <title>Registrar Paquetes</title>
     </head>
     <body>
-    <html>
+  
         <%@include file="menu.jsp" %>
         <section id="container">
-
+            <br><br>
         <h1>Registrar Paquetes</h1>
         
       
