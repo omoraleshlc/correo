@@ -28,8 +28,28 @@
 <%
 //FUNCION ELIMINAR
 String keyC=null;
+String accion=null;
 keyC=request.getParameter("keyC");
-if(keyC!=null )
+accion=request.getParameter("accion");
+String Name=null;
+String phone=null;
+String address=null;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if(keyC!=null && accion=="eliminar")
 
 {
 
@@ -131,9 +151,65 @@ canal.close();
 
 // construyendo forma dinamica
 
-out.println("<FORM ACTION=catContactos.jsp METHOD=post>");
+
 %>
 
+
+
+
+
+
+<%
+
+
+
+
+// abriendo canal o enlace en su propio try-catch
+
+try {
+
+Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+canal=DriverManager.getConnection(strcon);
+
+instrucciones = canal.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+
+ResultSet.CONCUR_UPDATABLE);
+
+} catch(java.lang.ClassNotFoundException e){} catch(SQLException e) {};
+
+// preparando condicion de busqueda
+
+
+// construyendo select con condicion
+
+String qt="select nombre,telefono,direccion,tipo,ubicacion,tipo from contactos WHERE keyC=\"" +keyC+"\" ";
+
+// mandando el sql a la base de datos
+
+try { tabla = instrucciones.executeQuery(qt);
+
+// mandando resultset a tabla html
+
+
+while(tabla.next()) {
+    
+Name=tabla.getString(2);
+phone=tabla.getString(3);
+address=tabla.getString(4);      
+ } // fin while
+
+
+
+} //fin try no usar ; al final de dos o mas catchs
+
+catch(SQLException e) {};
+
+try {tabla.close();instrucciones.close();canal.close();} catch(SQLException e) {};
+%>
+
+
+<FORM ACTION="catContactos.jsp" METHOD="post">
   <%
             if(request.getParameter("TIPO")=="empleado"){
                 out.println("selected");
@@ -159,9 +235,9 @@ out.println("<FORM ACTION=catContactos.jsp METHOD=post>");
         </select><BR>
 
 
-<INPUT TYPE="TEXT" placeholder="NOMBRE" NAME="NOMBRE" ><BR>
-<INPUT TYPE="TEXT NAME=TELEFONO" placeholder="TELEFONO" ><BR>
-<INPUT TYPE="TEXT" NAME="DIRECCION" placeholder="DIRECCION"><BR>
+<INPUT TYPE="TEXT" placeholder="NOMBRE" NAME="NOMBRE" value="<% out.println(Name);%>" ><BR>
+<INPUT TYPE="TEXT" NAME="TELEFONO" placeholder="TELEFONO" value="<% out.println(phone);%>"><BR>
+<INPUT TYPE="TEXT" NAME="DIRECCION" placeholder="DIRECCION" value="<% out.println(address);%>"><BR>
 <button class="btn btn-sm" TYPE="SUBMIT" NAME="GRABAR" VALUE="INSERTAR" >
 AGREGAR <span class="glyphicon glyphicon-floppy-save"></span>
 
@@ -247,7 +323,8 @@ out.println("<TD><small>"+tabla.getString(3)+"</small></TD>");
 out.println("<TD><small>"+tabla.getString(4)+"</small></TD>");
 out.println("<TD><small>"+tabla.getString(5)+"</small></TD>");
 out.println("<TD><small>"+tabla.getString(6)+"</small></TD>");
-out.println("<TD><small><a href='catContactos.jsp?keyC="+tabla.getString(1)+"'>Eliminar</a></small></TD>");
+out.println("<TD><small><a href='catContactos.jsp?accion=editar&keyC="+tabla.getString(1)+"'>Editar</a></small></TD>");
+out.println("<TD><small><a href='catContactos.jsp?accion=eliminar&keyC="+tabla.getString(1)+"'>Eliminar</a></small></TD>");
 
 out.println("</TR>"); }; // fin while
 
