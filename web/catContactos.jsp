@@ -34,6 +34,85 @@ accion=request.getParameter("accion");
 String Name=null;
 String phone=null;
 String address=null;
+String location=null;
+String type=null;
+String plus=null;
+
+
+String keyCPlus = request.getParameter("keyCPlus");
+String tipo = request.getParameter("TIPO");
+String ubicacion = request.getParameter("UBICACION");
+String nombre = request.getParameter("NOMBRE");
+String telefono = request.getParameter("TELEFONO");
+String direccion = request.getParameter("DIRECCION");
+accion = request.getParameter("accion");
+
+
+
+if(keyCPlus!=null && request.getParameter("actualizar") != null)
+
+{
+
+
+
+// excepto clave porque en mysql es de tipo auto-increment
+if(tipo==""){
+    tipo=null;
+}
+
+
+
+if(ubicacion==""){
+    ubicacion=null;
+}
+
+if(nombre==""){
+    nombre=null;
+}
+
+if(telefono==""){
+    telefono=null;
+}
+
+if(direccion==""){
+    direccion=null;
+}
+
+// insert into tabla(nombre,edad,estatura) values('juan', 15, 1.88);
+
+        plus="UPDATE contactos set tipo='"+tipo+"', ";
+        plus+= "ubicacion='"+ubicacion+"', ";
+        plus+= "nombre='"+nombre+"', ";
+        plus+= "telefono='"+telefono+"', ";
+        plus+= "direccion='"+direccion+"' ";
+        plus+= "WHERE keyC=\"" +keyCPlus+"\" ";
+        
+        //out.println(plus);
+try {
+
+// agregando renglon (insert)
+
+int no=instruccion.executeUpdate(plus);
+
+//avisando que se hizo la instruccion
+
+out.println("<div class='alert alert-success'>SE ACTUALIZO EL CONTACTO!</div>");
+
+} catch(SQLException e) {out.println(e);};
+
+try{
+
+// tabla.close();
+
+instruccion.close();
+
+canal.close();
+
+} catch(SQLException e) {out.println(e);};
+
+};
+
+//CIERRA ACTUALIZAR
 
 
 
@@ -42,14 +121,7 @@ String address=null;
 
 
 
-
-
-
-
-
-
-
-if(keyC!=null && accion=="eliminar")
+if(keyC!=null && accion.equals("eliminar"))
 
 {
 
@@ -90,7 +162,7 @@ canal.close();
 //CIERRA ELIMINAR
 
 
-if(request.getParameter("GRABAR") != null && request.getParameter("NOMBRE") != "" && request.getParameter("TIPO") != "")
+if(request.getParameter("accion")==null && request.getParameter("GRABAR") != null && request.getParameter("NOMBRE") != "" && request.getParameter("TIPO") != "" && request.getParameter("nuevo")==null)
 
 {
 
@@ -114,11 +186,7 @@ ResultSet.CONCUR_UPDATABLE);
 
 // excepto clave porque en mysql es de tipo auto-increment
 
-String tipo = request.getParameter("TIPO");
-String ubicacion = request.getParameter("UBICACION");
-String nombre = request.getParameter("NOMBRE");
-String telefono = request.getParameter("TELEFONO");
-String direccion = request.getParameter("DIRECCION");
+
 // insert into tabla(nombre,edad,estatura) values('juan', 15, 1.88);
 
 String q="insert into contactos(tipo,ubicacion,nombre,telefono,direccion) values(\"" +tipo+"\",\"" +ubicacion+"\",\"" +nombre+"\",\"" +telefono+"\",\"" +direccion+"\")";
@@ -162,7 +230,7 @@ canal.close();
 <%
 
 
-
+if(request.getParameter("keyC")!=null && request.getParameter("accion").equals("editar")){
 
 // abriendo canal o enlace en su propio try-catch
 
@@ -183,7 +251,7 @@ ResultSet.CONCUR_UPDATABLE);
 
 // construyendo select con condicion
 
-String qt="select nombre,telefono,direccion,tipo,ubicacion,tipo from contactos WHERE keyC=\"" +keyC+"\" ";
+String qt="select nombre,telefono,direccion,ubicacion,tipo from contactos WHERE keyC=\"" +keyC+"\" ";
 
 // mandando el sql a la base de datos
 
@@ -194,9 +262,11 @@ try { tabla = instrucciones.executeQuery(qt);
 
 while(tabla.next()) {
     
-Name=tabla.getString(2);
-phone=tabla.getString(3);
-address=tabla.getString(4);      
+Name=tabla.getString(1);
+phone=tabla.getString(2);
+address=tabla.getString(3);  
+location=tabla.getString(4);
+type=tabla.getString(5);
  } // fin while
 
 
@@ -206,48 +276,125 @@ address=tabla.getString(4);
 catch(SQLException e) {};
 
 try {tabla.close();instrucciones.close();canal.close();} catch(SQLException e) {};
+
+
 %>
 
 
 <FORM ACTION="catContactos.jsp" METHOD="post">
-  <%
-            if(request.getParameter("TIPO")=="empleado"){
-                out.println("selected");
-            }
-            %>
-        <select name="TIPO" class="form-control dropdown-menu" onChange="this.form.submit();">
+
+    <div class="row">
+  <div class="col-xs-2">
+        <select name="TIPO" class="form-control" >
             <option >TIPO CONTACTO</option>
         <option
-            <%
-            if(request.getParameter("TIPO")=="empleado"){
-                out.println("selected=''");
-            }
-            %>
+           <% if(type.equals("empleado")){ out.println("selected=''");}%>
             value="empleado">EMPLEADO</option>
-        <option value="alumno">ALUMNO</option>
-        </select><BR>
+        <option
+            <% if(type.equals("alumno")){ out.println("selected=''");}%>
+            value="alumno">ALUMNO</option>
+        </select>
+      </div></div>
 
-<select name="UBICACION"><option >UBICACION</option>
-        <option value="dentroum">DENTRO UM</option>
-        <option value="fueraum">FUERAUM</option>
-         <option value="alumnoInterno">ALUMNO INTERNO</option>
-         <option value="alumnoExterno">ALUMNO EXTERNO</option>
-        </select><BR>
+            
+    <div class="row">
+  <div class="col-xs-2">            
+<select name="UBICACION" class="form-control"><option >UBICACION</option>
+        <option
+            <% if(location.equals("dentroum")){ out.println("selected=''");}%>
+            value="dentroum">DENTRO UM</option>
+        <option
+             <% if(location.equals("fueraum")){ out.println("selected=''");}%>
+            value="fueraum">FUERAUM</option>
+         <option
+             <% if(location.equals("alumnoInterno")){ out.println("selected=''");}%>
+             value="alumnoInterno">ALUMNO INTERNO</option>
+         <option
+             <% if(location.equals("alumnoExterno")){ out.println("selected=''");}%>
+             value="alumnoExterno">ALUMNO EXTERNO</option>
+        </select>
+  </div>
+    </div>
 
-
-<INPUT TYPE="TEXT" placeholder="NOMBRE" NAME="NOMBRE" value="<% out.println(Name);%>" ><BR>
-<INPUT TYPE="TEXT" NAME="TELEFONO" placeholder="TELEFONO" value="<% out.println(phone);%>"><BR>
-<INPUT TYPE="TEXT" NAME="DIRECCION" placeholder="DIRECCION" value="<% out.println(address);%>"><BR>
-<button class="btn btn-sm" TYPE="SUBMIT" NAME="GRABAR" VALUE="INSERTAR" >
+    <div class="row">
+  <div class="col-xs-2">  
+<INPUT TYPE="TEXT" placeholder="NOMBRE" class="form-control" NAME="NOMBRE" value="<% out.println(Name);%>" ><BR>
+<INPUT TYPE="TEXT" NAME="TELEFONO" class="form-control"  placeholder="TELEFONO" value="<% out.println(phone);%>"><BR>
+<INPUT TYPE="TEXT" NAME="DIRECCION" class="form-control"  placeholder="DIRECCION" value="<% out.println(address);%>"><BR>
+  </div>
+    </div>
+<button class="btn btn-primary btn-sm" TYPE="SUBMIT" NAME="GRABAR" VALUE="INSERTAR" >
 AGREGAR <span class="glyphicon glyphicon-floppy-save"></span>
+</button>
+  
+ <button class="btn btn-success btn-sm" TYPE="SUBMIT" NAME="nuevo" VALUE="nuevo" >
+NUEVO <span class="glyphicon glyphicon-plus"></span>
+</button> 
+  
+   <button class="btn btn-default btn-sm" type="submit" name="actualizar" value="actualizar" >
+ACTUALIZAR <span class="glyphicon glyphicon-floppy-open"></span>
+</button> 
+<BR>
+<INPUT TYPE="hidden" NAME="keyCPlus" class="form-control"  placeholder="DIRECCION" value="<% out.println(request.getParameter("keyC"));%>"><BR>
+</form>
+<% } else {%>
+<FORM ACTION="catContactos.jsp" METHOD="post">
+
+    <div class="row">
+  <div class="col-xs-2">
+        <select name="TIPO" class="form-control" >
+            <option >TIPO CONTACTO</option>
+        <option
+          
+            value="empleado">EMPLEADO</option>
+        <option
+           
+            value="alumno">ALUMNO</option>
+        </select>
+      </div></div>
+    <br>
+            
+    <div class="row">
+  <div class="col-xs-2">            
+<select name="UBICACION" class="form-control"><option >UBICACION</option>
+        <option
+           
+            value="dentroum">DENTRO UM</option>
+        <option
+             
+            value="fueraum">FUERAUM</option>
+         <option
+             
+             value="alumnoInterno">ALUMNO INTERNO</option>
+         <option
+            
+             value="alumnoExterno">ALUMNO EXTERNO</option>
+        </select>
+  </div>
+    </div>
+    <br>
+
+    <div class="row">
+  <div class="col-xs-2">  
+<INPUT TYPE="TEXT" placeholder="NOMBRE" class="form-control" NAME="NOMBRE" value="" ><BR>
+<INPUT TYPE="TEXT" NAME="TELEFONO" class="form-control"  placeholder="TELEFONO" value=""><BR>
+<INPUT TYPE="TEXT" NAME="DIRECCION" class="form-control"  placeholder="DIRECCION" value=""><BR>
+
+  </div>
+    </div>
+<button class="btn btn-primary btn-sm" TYPE="SUBMIT" NAME="GRABAR" VALUE="INSERTAR" >
+AGREGAR <span class="glyphicon glyphicon-floppy-save"></span>
+
+</button>
+    
+    <button class="btn btn-primary btn-sm" TYPE="button" NAME="IMPRIMIR" VALUE="INSERTAR" onClick="window.print();">
+PRINT <span class="glyphicon glyphicon-print"></span>
 
 </button>
 <BR>
 
 </form>
-
-
-
+<% } %>
 
 
 
@@ -304,7 +451,7 @@ try { tabla = instrucciones.executeQuery(q);
 <div class="panel-heading"></div> 
 <table class="table table-hover table-striped"><TR>
 
-<th >#</th><th>TIPO</th><th >UBICACION</th><th >NOMBRE</th><th >TELEFONO</th><th>DIRECCION</th></TR>
+<th >#</th><th>TIPO</th><th >UBICACION</th><th >NOMBRE</th><th >TELEFONO</th><th>DIRECCION</th><th></th><th></th></TR>
 
     
     
@@ -323,9 +470,26 @@ out.println("<TD><small>"+tabla.getString(3)+"</small></TD>");
 out.println("<TD><small>"+tabla.getString(4)+"</small></TD>");
 out.println("<TD><small>"+tabla.getString(5)+"</small></TD>");
 out.println("<TD><small>"+tabla.getString(6)+"</small></TD>");
-out.println("<TD><small><a href='catContactos.jsp?accion=editar&keyC="+tabla.getString(1)+"'>Editar</a></small></TD>");
-out.println("<TD><small><a href='catContactos.jsp?accion=eliminar&keyC="+tabla.getString(1)+"'>Eliminar</a></small></TD>");
+%>
 
+
+
+<TD><small>
+        <a href='catContactos.jsp?accion=editar&keyC=<% out.println(tabla.getString(1));%>'>
+            Editar 
+            
+</a></small></TD>
+
+
+
+<TD><small>
+        <a href='catContactos.jsp?accion=eliminar&keyC=<% out.println(tabla.getString(1));%>'>
+            Eliminar 
+            </a></small>
+</TD>
+
+
+<%
 out.println("</TR>"); }; // fin while
 
 
