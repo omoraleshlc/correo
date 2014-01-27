@@ -189,7 +189,7 @@ ResultSet.CONCUR_UPDATABLE);
 
 // insert into tabla(nombre,edad,estatura) values('juan', 15, 1.88);
 
-String q="insert into contactos(tipo,ubicacion,nombre,telefono,direccion) values(\"" +tipo+"\",\"" +ubicacion+"\",\"" +nombre+"\",\"" +telefono+"\",\"" +direccion+"\")";
+String q="insert into contactos(tipo,ubicacion,nombre,telefono,direccion,) values(\"" +tipo+"\",\"" +ubicacion+"\",\"" +nombre+"\",\"" +telefono+"\",\"" +direccion+"\")";
 
 try {
 
@@ -293,7 +293,7 @@ try {tabla.close();instrucciones.close();canal.close();} catch(SQLException e) {
         <option
             <% if(type.equals("alumno")){ out.println("selected=''");}%>
             value="alumno">ALUMNO</option>
-        </select>
+        </select><br>
       </div></div>
 
             
@@ -312,7 +312,7 @@ try {tabla.close();instrucciones.close();canal.close();} catch(SQLException e) {
          <option
              <% if(location.equals("alumnoExterno")){ out.println("selected=''");}%>
              value="alumnoExterno">ALUMNO EXTERNO</option>
-        </select>
+</select><br>
   </div>
     </div>
 

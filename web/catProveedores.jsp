@@ -4,7 +4,6 @@
     Author     : eric
 --%>
 
-<%@include file="menu.jsp" %>
 <%@ include file="conectar.jsp" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -83,7 +82,12 @@ int n=instruccion.executeUpdate(q);
 //avisando que se hizo la instruccion
 
 out.println("<div class='alert alert-success'>SE AGREGO EL PROVEEDOR!</div>");
+%>
+<script>
+     document.registrar.submit();
+</script>
 
+<%
 } catch(SQLException e) {out.println(e);};
 
 try{

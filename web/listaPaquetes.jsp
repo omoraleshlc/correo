@@ -4,17 +4,23 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Entregar Paquetes</title>
+        <title>Lista de Paquetes</title>
     </head>
     <body>
         <%@include file="menu.jsp" %>
         <br><br>
         <div class="container">
 
-        <h1>Entregar paquete con la solicitud: <% out.println(request.getParameter("keyRP"));%></h1>
+        <h1>Lista de Paquetes</h1>
    
-
-
+        <br>
+        
+        <!--
+        <button name="imprimir" class="btn btn-success btn-sm" value="IMPRIMIR" type="button" onclick="window.print();">
+            Imprimir <span class="glyphicon glyphicon-print"></span>
+        </button>
+        <br>
+        -->
 <%
 
 
@@ -75,10 +81,6 @@ out.println("<script>window.alert('PAQUETE ENTREGADO!');</script>");
 
 
 
-CONTACTO:  
-
-
-
 <%
 
 // declarando y creando objetos globales
@@ -113,37 +115,6 @@ String p="select keyC,nombre from contactos order by nombre ";
 
 // mandando el sql a la base de datos
 
-try { tabla = instrucciones.executeQuery(p);
-
-// mandando resultset a tabla html
-out.println("<form name='entregar'>");
-out.println("<SELECT name='keyC' class='form-control'>");
-
-
-
-while(tabla.next()) {
-
-%>
-
-
-<option value="<% out.println(tabla.getString(1));%>"><% out.println(tabla.getString(2));%></option>
-
-
-<% 
-} // fin while
-
-out.println("</select><br>");
-
-} //fin try no usar ; al final de dos o mas catchs
-
-catch(SQLException e) {};
-
-try {tabla.close();instrucciones.close();canal.close();} catch(SQLException e) {};%>
-<INPUT TYPE="hidden" NAME="keyRP" VALUE="<% out.println(request.getParameter("keyRP"));%>" ><BR>
-
-<%
-out.println("<INPUT TYPE=SUBMIT NAME=GRABAR VALUE=ENTREGAR PAQUETE ><BR>");
-out.println("</form><br><br>");
 
 
 // declarando y creando objetos globales
@@ -170,7 +141,7 @@ ResultSet.CONCUR_UPDATABLE);
 
 // construyendo select con condicion
 String q=null;
-q="select registrarpaquetes.keyRP,proveedores.nombre,registrarpaquetes.status,registrarpaquetes.fecha,registrarpaquetes.fechaEntrega from registrarpaquetes,proveedores where registrarpaquetes.keyP=proveedores.keyP order by proveedores.nombre ASC";
+q="select registrarpaquetes.numFolio,proveedores.nombre,registrarpaquetes.status,registrarpaquetes.fecha,registrarpaquetes.fechaEntrega from registrarpaquetes,proveedores where registrarpaquetes.keyP=proveedores.keyP order by proveedores.nombre ASC";
 String r=null;
 String idProveedor=null;
 // mandando el sql a la base de datos

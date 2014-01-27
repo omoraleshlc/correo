@@ -7,12 +7,12 @@
   <div class="container">
     <div class="navbar-header">
       <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
+        <span class="sr-only">Menu principal</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="../" class="navbar-brand">CORREOS UM</a>
+      <a href="entrada.jsp" class="navbar-brand">CORREOS UM</a>
     </div>
     <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
         
@@ -23,10 +23,7 @@
           <a href="registrarPaquetes.jsp">Recibir Paquetes <span class="glyphicon glyphicon-arrow-right"></span>
 </a>
         </li>
-        <li>
-          <a href="catProveedores.jsp">Proveedores <span class="glyphicon glyphicon-book"></span>
-</a>
-        </li>
+
         <li class="active">
           <a href="catUsuarios.jsp">Usuarios <span class="glyphicon glyphicon-user"></span>
 </a>
@@ -37,9 +34,15 @@
         </li>
       
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a href="../about">Usuario: </a>
+
+        
+         <ul class="nav navbar-nav navbar-right">
+         <li>
+            <a href="salida.jsp">
+            Salir 
+                <span class="glyphicon glyphicon-off"></span>
+            
+            </a>
         </li>
       </ul>
     </nav>

@@ -15,7 +15,9 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="bootstrap.css" rel="stylesheet">
+<link href="images/css/bootstrap.css" rel="stylesheet" media="screen, projection">
+<link href="images/css/bootstrap.min.css" rel="stylesheet">
+<link href="images/js/bootstrap.js" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 40px;
@@ -75,7 +77,7 @@
         <label class="checkbox">
           <input type="checkbox" value="remember-me"> Remember me
         </label>
-        <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+        <button class="btn btn-xs btn-primary" type="submit" name="ingresar" value="Sign in">Sign in</button>
       </form>
 
     </div> <!-- /container -->

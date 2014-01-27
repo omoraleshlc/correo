@@ -16,7 +16,7 @@
     <body>
   
         <%@include file="menu.jsp" %>
-        <section id="container">
+        <div class="container">
             <br><br>
         <h1>Registrar Paquetes</h1>
         
@@ -27,7 +27,7 @@
 
 <%
 
-if(request.getParameter("GRABAR") != null && request.getParameter("NOMBRE") != "" && request.getParameter("EMAIL") != "" && request.getParameter("USUARIO") != "" && request.getParameter("PASSWORD") != "")
+if(request.getParameter("numFolio") != null && request.getParameter("GRABAR") != null && request.getParameter("NOMBRE") != "" && request.getParameter("EMAIL") != "" && request.getParameter("USUARIO") != "" && request.getParameter("PASSWORD") != "")
 
 {
 
@@ -60,8 +60,8 @@ ResultSet.CONCUR_UPDATABLE);
 // excepto clave porque en mysql es de tipo auto-increment
 
 String keyP = request.getParameter("keyP");
-
-
+String Observaciones=request.getParameter("observaciones");
+String numFolio=request.getParameter("numFolio");
 /*
 // insert into tabla(nombre,edad,estatura) values('juan', 15, 1.88);
     $q4 = "
@@ -82,7 +82,7 @@ String keyP = request.getParameter("keyP");
 //String q=" INSERT INTO contadorExternos(contador)
  //   SELECT(IFNULL((SELECT MAX(contador)+1 from contadorExternos )))";
 
-String q="insert into registrarpaquetes(keyP,status,fecha) values(\"" +keyP+"\",'recibido',now())";
+String q="insert into registrarpaquetes(keyP,status,fecha,observaciones,numFolio) values(\"" +keyP+"\",'recibido',now(),\"" +Observaciones+"\",\"" +numFolio+"\")";
 try {
 
 // agregando renglon (insert)
@@ -116,17 +116,19 @@ canal.close();
 
 // construyendo forma dinamica
 
-out.println("<FORM ACTION=registrarPaquetes.jsp METHOD=post>");
+
 
 %>
+<form name="registrar" ACTION="registrarPaquetes.jsp" METHOD="post">
+<script>
+function openWin()
+{
+var myWindow = window.open("catProveedores.jsp","","width=800,height=500");
+}
+</script>
 
 
 
-
-
-
-
-Proveedor: 
 
 
 
@@ -172,11 +174,21 @@ String p="select * from proveedores ";
 try { tabla = instrucciones.executeQuery(p);
 
 // mandando resultset a tabla html
+%>
 
-out.println("<SELECT name='keyP'>");
+<br>
+<div class="col-xs-6 col-sm-4">
+<button class="btn btn-primary btn-sm" onclick="openWin()">
+    Nueva paqueteria 
+<span class="glyphicon glyphicon-plus"></span>
+</button>
+</div>
+<br><br>
+<div class="col-xs-6 col-sm-4">
+<select name='keyP' class="form-control">
 
 
-
+<%
 while(tabla.next()) {
 
 %>
@@ -185,9 +197,10 @@ while(tabla.next()) {
 <option value="<% out.println(tabla.getString(1));%>"><% out.println(tabla.getString(2));%></option>
 <% 
 }; // fin while
-
-out.println("</select><br>");
-
+%>
+</select>
+</div><br><br>
+<%
 } //fin try no usar ; al final de dos o mas catchs
 
 catch(SQLException e) {};
@@ -201,22 +214,36 @@ try {tabla.close();instrucciones.close();canal.close();} catch(SQLException e) {
 
 
 %>
- 
 
 
 
+<br>
 
+<div class="col-xs-6 col-sm-4">
+<textarea name="observaciones" placeholder="Observaciones" class="form-control text-primary" ></textarea>
+</div>
 
-<%
+<br><br><br><br>
+<div class="col-xs-6 col-sm-2">
+    <input name="numFolio" placeholder="FOLIO" class="form-control text-primary" >
+</div>
+<br><br><br><br>
+<div class="col-xs-6 col-sm-4">
+<button TYPE="SUBMIT" class="btn btn-success btn-sm" NAME="GRABAR" VALUE="REGISTRAR" >
+Registrar Paquete <span class="glyphicon glyphicon-plane"></span>
+</button>
+<a href="listaPaquetes.jsp">
+    
+Paquetes Registrados <span class="glyphicon glyphicon-list"></span>
+   
+</a>
+</div>
+<BR><br>
+</form>
 
-out.println("<INPUT TYPE=SUBMIT NAME=GRABAR VALUE=INSERTAR ><BR>");
-
-out.println("</FORM>");
-
-%>
 
         
-        </section>
+        
 
 
 <%
@@ -245,7 +272,7 @@ ResultSet.CONCUR_UPDATABLE);
 
 // construyendo select con condicion
 
-String q="select registrarpaquetes.keyRP,proveedores.nombre,registrarpaquetes.status,registrarpaquetes.fecha from registrarpaquetes,proveedores "
+String q="select registrarpaquetes.numFolio,proveedores.nombre,registrarpaquetes.usuario,registrarpaquetes.status,registrarpaquetes.fecha,registrarpaquetes.observaciones from registrarpaquetes,proveedores "
         + "where registrarpaquetes.status!='entregado' "
         + "and registrarpaquetes.keyP=proveedores.keyP order by proveedores.nombre ASC";
 String r=null;
@@ -255,11 +282,12 @@ String idProveedor=null;
 try { tabla = instrucciones.executeQuery(q);
 
 // mandando resultset a tabla html
+%>
+<table class="table table-striped table-hover"><TR>
 
-out.println("<TABLE Border=10 CellPadding=5><TR>");
+        <th >#Folio</th><th >PAQUETERIA</th><th>RECIBIO</th><th >STATUS</th><th >FECHA</th><th>Observaciones</th><th></th></TR>
 
-out.println("<th >#Solicitud</th><th bgcolor=White>PROVEEDOR</th><th bgcolor=White>STATUS</th><th >FECHA</th></TR>");
-
+<%    
 while(tabla.next()) {
 a+=1;    
 
@@ -272,12 +300,13 @@ out.println("<TD>"+tabla.getString(1)+"</TD>");
 out.println("<TD>"+tabla.getString(2)+"</TD>");
 out.println("<TD>"+tabla.getString(3)+"</TD>");
 out.println("<TD>"+tabla.getString(4)+"</TD>");
+out.println("<TD>"+tabla.getString(5)+"</TD>");
+out.println("<TD>"+tabla.getString(6)+"</TD>");
 
 out.println("<TD><a href='entregarPaquetes.jsp?keyRP="+tabla.getString(1)+"'>Entregar</a></TD>");
 
 out.println("</TR>"); }; // fin while
 
-out.println("</TABLE></CENTER></DIV></HTML>");
 
 } //fin try no usar ; al final de dos o mas catchs
 
@@ -293,6 +322,7 @@ try {tabla.close();instrucciones.close();canal.close();} catch(SQLException e) {
 
 %>
 
-
+</table>
+    </div>
 </body>
 </html>
