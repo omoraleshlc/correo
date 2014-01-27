@@ -11,7 +11,7 @@
         <br><br>
         <div class="container">
 
-        <h1>Entregar paquete con la solicitud: <% out.println(request.getParameter("keyRP"));%></h1>
+        <h1>Entregar paquete con numero de folio: <% out.println(request.getParameter("numFolio"));%></h1>
    
 
 
@@ -53,7 +53,7 @@ String keyRP = request.getParameter("keyRP");
 
 if(request.getParameter("GRABAR") != null && request.getParameter("keyRP")!=null)
 {
-String q="UPDATE registrarpaquetes set status='entregado',fechaEntrega=now() where keyRP=\"" +keyRP+"\"";
+String q="UPDATE registrarpaquetes set status='entregado',fechaEntrega=now() where keyRP=\""+keyRP+"\"";
 try {
 
 // agregando renglon (insert)
@@ -61,7 +61,7 @@ try {
 int n=instruccion.executeUpdate(q);
 
 //avisando que se hizo la instruccion
-
+//out.println(q);
 out.println("<script>window.alert('PAQUETE ENTREGADO!');</script>");
 
 } catch(SQLException e) {out.println(e);};
@@ -170,7 +170,7 @@ ResultSet.CONCUR_UPDATABLE);
 
 // construyendo select con condicion
 String q=null;
-q="select registrarpaquetes.keyRP,proveedores.nombre,registrarpaquetes.status,registrarpaquetes.fecha,registrarpaquetes.fechaEntrega from registrarpaquetes,proveedores where registrarpaquetes.keyP=proveedores.keyP order by proveedores.nombre ASC";
+q="select registrarpaquetes.keyRP,proveedores.nombre,registrarpaquetes.status,registrarpaquetes.fecha,registrarpaquetes.fechaEntrega,registrarpaquetes.numFolio from registrarpaquetes,proveedores where registrarpaquetes.keyP=proveedores.keyP order by proveedores.nombre ASC";
 String r=null;
 String idProveedor=null;
 // mandando el sql a la base de datos
@@ -192,7 +192,7 @@ out.println("<TR>");
 idProveedor=tabla.getString(3);
 
 
-out.println("<TD>"+tabla.getString(1)+"</TD>");
+out.println("<TD>"+tabla.getString(6)+"</TD>");
 out.println("<TD>"+tabla.getString(2)+"</TD>");
 out.println("<TD>"+tabla.getString(3)+"</TD>");
 out.println("<TD>"+tabla.getString(4)+"</TD>");

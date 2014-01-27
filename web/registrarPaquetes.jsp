@@ -272,7 +272,7 @@ ResultSet.CONCUR_UPDATABLE);
 
 // construyendo select con condicion
 
-String q="select registrarpaquetes.numFolio,proveedores.nombre,registrarpaquetes.usuario,registrarpaquetes.status,registrarpaquetes.fecha,registrarpaquetes.observaciones from registrarpaquetes,proveedores "
+String q="select registrarpaquetes.numFolio,proveedores.nombre,registrarpaquetes.usuario,registrarpaquetes.status,registrarpaquetes.fecha,registrarpaquetes.observaciones,registrarpaquetes.keyRP from registrarpaquetes,proveedores "
         + "where registrarpaquetes.status!='entregado' "
         + "and registrarpaquetes.keyP=proveedores.keyP order by proveedores.nombre ASC";
 String r=null;
@@ -302,8 +302,10 @@ out.println("<TD>"+tabla.getString(3)+"</TD>");
 out.println("<TD>"+tabla.getString(4)+"</TD>");
 out.println("<TD>"+tabla.getString(5)+"</TD>");
 out.println("<TD>"+tabla.getString(6)+"</TD>");
+out.println("<TD>"+tabla.getString(7)+"</TD>");
 
-out.println("<TD><a href='entregarPaquetes.jsp?keyRP="+tabla.getString(1)+"'>Entregar</a></TD>");
+
+out.println("<TD><a href='entregarPaquetes.jsp?keyRP="+tabla.getString(7)+"'>Entregar</a></TD>");
 
 out.println("</TR>"); }; // fin while
 
