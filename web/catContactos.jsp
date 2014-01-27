@@ -189,7 +189,7 @@ ResultSet.CONCUR_UPDATABLE);
 
 // insert into tabla(nombre,edad,estatura) values('juan', 15, 1.88);
 
-String q="insert into contactos(tipo,ubicacion,nombre,telefono,direccion,) values(\"" +tipo+"\",\"" +ubicacion+"\",\"" +nombre+"\",\"" +telefono+"\",\"" +direccion+"\")";
+String q="insert into contactos(tipo,ubicacion,nombre,telefono,direccion) values(\"" +tipo+"\",\"" +ubicacion+"\",\"" +nombre+"\",\"" +telefono+"\",\"" +direccion+"\")";
 
 try {
 
